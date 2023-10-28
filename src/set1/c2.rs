@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 fn xor_buffers(buffer_1: &[u8], buffer_2: &[u8]) -> Result<Vec<u8>, String> {
     if buffer_1.len() != buffer_2.len() {
         return Err("buffers have different lengths".to_string());
@@ -21,7 +23,7 @@ fn xor_hex_strings(hex_1: &str, hex_2: &str) -> Result<Vec<u8>, String> {
     }
 }
 
-fn hex_string_to_bytes(hex_string: &str) -> Option<Vec<u8>> {
+pub fn hex_string_to_bytes(hex_string: &str) -> Option<Vec<u8>> {
     // Check if the input string has an even number of characters
     if hex_string.len() % 2 != 0 {
         return None;
