@@ -37,10 +37,7 @@ pub mod tests {
     use super::*;
     #[test]
     fn decrypt_lines_valid() {
-        let result = decrypt_lines("src/set1/4.txt");
-        match result {
-            Ok(decrypted) => assert_eq!("Now that the party is jumping\n", decrypted),
-            Err(e) => println!("{}", e),
-        }
+        let decrypted = decrypt_lines("src/set1/4.txt").unwrap();
+        assert_eq!("Now that the party is jumping\n", decrypted);
     }
 }
