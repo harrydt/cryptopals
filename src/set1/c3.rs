@@ -1,5 +1,4 @@
 #![allow(unused)]
-
 use super::c2::hex_string_to_bytes;
 
 const ENCRYPTED: &str = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736";
@@ -43,9 +42,13 @@ fn calc_freq(s: &str) -> f64 {
     score
 }
 
-fn decipher_xor_single_byte() -> String {
-    // unwrap is ok since we know ENCRYPTED is valid
-    let cipher_bytes = hex_string_to_bytes(ENCRYPTED).unwrap();
+type XorScore = (String, f64);
+
+pub fn decipher_xor_single_byte(s: &str) -> Result<XorScore, String> {
+    let cipher_bytes = match hex_string_to_bytes(s) {
+        Some(bytes) => bytes,
+        None => return Err("could not convert string to bytes".to_string()),
+    };
     let mut deciphered = String::new();
     let mut max_score = f64::MIN;
 
@@ -63,7 +66,7 @@ fn decipher_xor_single_byte() -> String {
         }
     }
 
-    deciphered
+    Ok((deciphered, max_score))
 }
 
 #[cfg(test)]
@@ -79,7 +82,7 @@ pub mod tests {
 
     #[test]
     fn decipher_xor_single_byte_correct() {
-        let deciphered = decipher_xor_single_byte();
-        assert_eq!("Cooking MC's like a pound of bacon", deciphered);
+        let deciphered = decipher_xor_single_byte(ENCRYPTED).unwrap();
+        assert_eq!("Cooking MC's like a pound of bacon", deciphered.0);
     }
 }
