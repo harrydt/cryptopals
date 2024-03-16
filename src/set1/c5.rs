@@ -34,4 +34,3 @@ pub mod tests {
         assert_eq!(want, got);
     }
 }
-
