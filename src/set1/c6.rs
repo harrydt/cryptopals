@@ -44,23 +44,34 @@ fn hamming_distance_for_key_size(file_path: &str, size: u32) -> u32 {
 ///  The KEYSIZE with the smallest normalized edit distance is probably the key.
 ///  You could proceed perhaps with the smallest 2-3 KEYSIZE values.
 ///  Or take 4 KEYSIZE blocks instead of 2 and average the distances.
+///
+///  Why this works?
+///  https://crypto.stackexchange.com/questions/8115/repeating-key-xor-and-hamming-distance/8118#8118
 fn guess_key() -> u8 {
     (2..=40)
-        .map(|n| hamming_distance_for_key_size("src/set1/6.txt", n))
-        .min()
-        .unwrap()
-        .try_into()
-        .unwrap()
+        .map(|n| {
+            let distance = hamming_distance_for_key_size("src/set1/6.txt", n);
+            (n, distance) // Pair each 'n' with its computed distance
+        })
+        .min_by_key(|&(_n, distance)| distance) // Find the minimum based on the distance
+        .map(|(n, _distance)| n) // Extract the 'n' part of the pair
+        .unwrap() as u8 // Convert to u8 and unwrap       .unwrap()
 }
 
 #[cfg(test)]
 pub mod tests {
     use super::*;
+
     #[test]
     fn hamming_distance_works() {
         assert_eq!(
             37,
             hamming_distance("this is a test".as_bytes(), "wokka wokka!!!".as_bytes())
         );
+    }
+
+    #[test]
+    fn guess_key_works() {
+        assert_eq!(2, guess_key());
     }
 }
