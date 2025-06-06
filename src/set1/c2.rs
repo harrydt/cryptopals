@@ -35,10 +35,7 @@ pub fn hex_string_to_bytes(hex_string: &str) -> Option<Vec<u8>> {
         .map(|i| u8::from_str_radix(&hex_string[i..i + 2], 16))
         .collect();
 
-    match bytes {
-        Ok(byte_vec) => Some(byte_vec),
-        Err(_) => None, // Failed to parse hex string
-    }
+    bytes.ok()
 }
 
 #[cfg(test)]
