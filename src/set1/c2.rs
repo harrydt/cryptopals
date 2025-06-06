@@ -13,6 +13,7 @@ fn xor_buffers(buffer_1: &[u8], buffer_2: &[u8]) -> Result<Vec<u8>, String> {
     Ok(result)
 }
 
+/// xor_hex_strings takes two equal-length buffers and produces their XOR combination.
 fn xor_hex_strings(hex_1: &str, hex_2: &str) -> Result<Vec<u8>, String> {
     let buffer_1 = hex_string_to_bytes(hex_1);
     let buffer_2 = hex_string_to_bytes(hex_2);
