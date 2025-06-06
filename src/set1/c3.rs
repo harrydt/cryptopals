@@ -1,6 +1,3 @@
-#![allow(unused)]
-use super::c2::hex_string_to_bytes;
-
 const ENCRYPTED: &str = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736";
 
 // https://en.wikipedia.org/wiki/Letter_frequency
@@ -44,10 +41,10 @@ fn calc_freq(s: &str) -> f64 {
 
 type XorScore = (String, f64);
 
-pub fn decipher_xor_single_byte(s: &str) -> Result<XorScore, String> {
-    let cipher_bytes = match hex_string_to_bytes(s) {
-        Some(bytes) => bytes,
-        None => return Err("could not convert string to bytes".to_string()),
+pub fn decipher_xor_single_byte(hex_string: &str) -> Result<XorScore, String> {
+    let cipher_bytes = match hex::decode(hex_string) {
+        Ok(bytes) => bytes,
+        Err(_) => return Err("could not convert string to bytes".to_string()),
     };
     let mut deciphered = String::new();
     let mut max_score = f64::MIN;

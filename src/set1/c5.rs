@@ -1,5 +1,4 @@
 #![allow(unused)]
-use super::c2::hex_string_to_bytes;
 use hex;
 
 fn repeating_key_xor(msg: &str, key: &str) -> String {
@@ -7,12 +6,8 @@ fn repeating_key_xor(msg: &str, key: &str) -> String {
     // Then collect the cycles as one continous String
     let keys = key.chars().cycle().take(msg.len()).collect::<String>();
 
-    let msg_bytes = hex_string_to_bytes(&hex::encode(msg)).unwrap();
-    let keys_bytes = hex_string_to_bytes(&hex::encode(keys)).unwrap();
-
-    // this works too
-    // let msg_bytes = msg.as_bytes();
-    // let keys_bytes = keys.as_bytes();
+    let msg_bytes = msg.as_bytes();
+    let keys_bytes = keys.as_bytes();
 
     let xor_bytes = msg_bytes
         .iter()
