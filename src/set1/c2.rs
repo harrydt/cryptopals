@@ -25,6 +25,18 @@ pub mod tests {
     use super::*;
 
     #[test]
+    fn test_xor_hex_strings_with_cryptopals_example() {
+        let hex_1 = "1c0111001f010100061a024b53535009181c";
+        let hex_2 = "686974207468652062756c6c277320657965";
+        let expected = "746865206b696420646f6e277420706c6179";
+
+        let result = xor_hex_strings(hex_1, hex_2).expect("XOR should succeed");
+        let encoded = hex::encode(result);
+
+        assert_eq!(encoded, expected);
+    }
+
+    #[test]
     fn xor_invalid_hex_strings() {
         let got = xor_hex_strings("4G616e", "686974207468652062756c6c277320657965");
         assert!(got.is_err());
